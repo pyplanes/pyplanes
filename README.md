@@ -6,3 +6,7 @@ pyplanes is a rewrite of @OlivierDAZEL's [PLANES](https://github.com/pyplanes/py
 It is a tool to solve acoustical propagation problems in the frequency domain including
 different kinds of media & numerical methods.
 
+## Requirements
+
+- python 3.6 or higher
+
