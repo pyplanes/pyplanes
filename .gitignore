@@ -1,0 +1,4 @@
+=template.py
+.pytest_cache/
+run_tests.sh
+__pycache__/
