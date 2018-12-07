@@ -23,9 +23,15 @@ import numpy as np
 
 
 class Shape(object):
-    """ Holds a shape
-    nodes - node list[len>2] (must be correctly winded, it *won't* be checked)
-    labels - list of labels
+    """
+    Holds a shape
+
+    Parameters
+    ----------
+    nodes: node list[len>2]
+        list of nodes. must be correctly winded, it *won't* be checked
+    labels: list
+        list of labels
     """
 
     def __init__(self, nodes, labels=None):
@@ -34,18 +40,44 @@ class Shape(object):
             raise ValueError("Less than 3 nodes don't make a surface")
 
         self.nodes = nodes
+        self.coords = np.array([_.coords for _ in nodes])
         self.labels = [] if labels is None else labels
 
-    def compute_normal(self):
-        """ Compute and store a normalized surface normal """
+        self._normal = None
+        self._centre = None
 
-        raw_normal = np.cross(
-            self.nodes[0].coords - self.nodes[1].coords,
-            self.nodes[0].coords - self.nodes[2].coords
-        )
-        self.normal = raw_normal/np.abs(raw_normal)
-        return self.normal
+    @property
+    def normal(self):
+        """
+        Compute and store a normalized surface normal
 
+        Return
+        ------
+        normal: -1 or 1
+            the shape's normal
+        """
 
-class Triangle(Shape):
-    pass
+        if self._normal is None:
+            raw_normal = np.cross(
+                self.coords[0] - self.coords[1],
+                self.coords[0] - self.coords[2]
+            )
+            self._normal = raw_normal/np.abs(raw_normal)
+        return self._normal
+
+    @property
+    def centre(self):
+        """
+        Compute and store the centre of the shape
+
+        Defaults to an average of the coordinates.
+
+        Returns
+        -------
+
+        centre: array of floats
+            Position of the centre
+        """
+        if self._centre is None:
+            self._centre = self.coords.mean(axis=0)
+        return self._centre

@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# node.py
+# wrapper.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -19,34 +19,21 @@
 # copies or substantial portions of the Software.
 #
 
-import numpy as np
-
-
-class Node(object):
-    """
-    Stores a node's coordinates and labels
+class InterpWrapper(object):
+    """Template for FEM interpolation methods.
 
     Attributes
     ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
-
-    Parameters
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+    __I: InterpolationMethod subclass
+        Actual interpolator class (all methods defined in InterpolationMethod are mirrored)
     """
 
-    def __init__(self, coords, labels=None, dim=2):
+    def __init__(self, interp, *a, **kw):
+        self.__I = interp(*a, **kw)
 
-        self.coords = np.array(coords)
-        self.labels = [] if labels is None else labels
-        self.dim = dim
+    def get_unit(self, *a, **kw):
+        return self.__I.get_unit(*a, **kw)
+
+    def get_matrices(self, *a, **kw):
+        return self.__I.get_matrices(*a, **kw)
+

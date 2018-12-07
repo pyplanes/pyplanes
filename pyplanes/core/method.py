@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# node.py
+# method.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -19,34 +19,7 @@
 # copies or substantial portions of the Software.
 #
 
-import numpy as np
 
-
-class Node(object):
-    """
-    Stores a node's coordinates and labels
-
-    Attributes
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
-
-    Parameters
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
-    """
-
-    def __init__(self, coords, labels=None, dim=2):
-
-        self.coords = np.array(coords)
-        self.labels = [] if labels is None else labels
-        self.dim = dim
+class Method(object):
+    """Serves as a base class for all methods"""
+    pass

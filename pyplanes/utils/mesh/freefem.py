@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# meshtools.py
+# freefem.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -25,9 +25,15 @@ from pyplanes.mesh import Mesh
 
 
 def freefem_reader(freefem_mshfile):
-    """ FreeFEM++ mesh reader (return a Mesh instance)
+    """
+    FreeFEM++ mesh reader (return a Mesh instance)
+
     If the file can't be read, the exception is caught and thrown anew by the function
-    freefem_mshfile - path to file
+
+    Parameters
+    ----------
+    freefem_mshfile: str
+        path to file
     """
 
     try:
@@ -47,7 +53,7 @@ def freefem_reader(freefem_mshfile):
             raise ValueError('Number of coordinates differ between nodes (had seen {}, now {})'.format(line_len, len(split_line)))
         # The last element is always a label (0 if unset)
         nodes.append(np.array(split_line[:-1], dtype=np.float))
-        nodes_labels.append([int(split_line[-1])])
+        nodes_labels.append(int(split_line[-1]))
         i += 1
 
     i, line_len = 0, None
@@ -62,7 +68,7 @@ def freefem_reader(freefem_mshfile):
         # The last element is always a label (0 if unset)
         # The nodes are indexed from 1 on by FF++, so we offset by -1 here
         shapes.append(np.array(split_line[:-1], dtype=np.float)-1)
-        shapes_labels.append([int(split_line[-1])])
+        shapes_labels.append(int(split_line[-1]))
         i += 1
 
     i, line_len = 0, None
@@ -77,8 +83,8 @@ def freefem_reader(freefem_mshfile):
         # The last element is always a label (0 if unset)
         # The nodes are indexed from 1 on by FF++, so we offset by -1 here
         edges.append(np.array(split_line[:-1], dtype=np.float)-1)
-        edges_labels.append([int(split_line[-1])])
+        edges_labels.append(int(split_line[-1]))
         i += 1
 
     fh.close()
-    return Mesh(nodes, nodes_labels, edges, edges_labels, shapes, shapes_labels)
+    return Mesh(np.array(nodes), nodes_labels, np.array(edges, dtype=int), edges_labels, np.array(shapes, dtype=int), shapes_labels)

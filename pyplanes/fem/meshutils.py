@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# node.py
+# meshutils.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -19,34 +19,17 @@
 # copies or substantial portions of the Software.
 #
 
-import numpy as np
+from pyplanes.mesh import MeshPart
 
 
-class Node(object):
-    """
-    Stores a node's coordinates and labels
-
-    Attributes
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+class FEMMesh(MeshPart):
+    """Holds a mesh and utility methods for querying FEM-aware features
 
     Parameters
     ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+    base_mesh: pyplanes.mesh.Mesh
+        mesh instance upon which the FEMMesh is based
     """
 
-    def __init__(self, coords, labels=None, dim=2):
-
-        self.coords = np.array(coords)
-        self.labels = [] if labels is None else labels
-        self.dim = dim
+    def __init__(self, base_mesh):
+        super().__init__(base_mesh=base_mesh)

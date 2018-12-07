@@ -1,7 +1,7 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 # -*- coding:utf8 -*-
 #
-# node.py
+# fluid.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -18,35 +18,39 @@
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
 #
+# This file is part of pymls, a software distributed under the MIT license.
+# For any question, please contact one of the authors cited below.
+#
 
-import numpy as np
+from .medium import Medium
 
 
-class Node(object):
-    """
-    Stores a node's coordinates and labels
+class Fluid(Medium):
+    """ Represent a fluid medium
 
     Attributes
     ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
 
-    Parameters
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+    rho : float
+        density
+    c : float
+        sound speed
     """
 
-    def __init__(self, coords, labels=None, dim=2):
+    MEDIUM_TYPE = 'fluid'
+    MODEL = MEDIUM_TYPE
+    EXPECTED_FIELDS = [
+        ('rho', float),  # Density
+        ('c', float),  # Sound speed
+    ]
 
-        self.coords = np.array(coords)
-        self.labels = [] if labels is None else labels
-        self.dim = dim
+    def __init__(self):
+        """ Nothing special todo for fluid """
+        super().__init__()
+
+        self.rho = None
+        self.c = None
+
+    def update_frequency(self, f):
+        """ For a fluid, does nothing."""
+        super().update_frequency(f)

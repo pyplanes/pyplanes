@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# node.py
+# fluid.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -19,34 +19,30 @@
 # copies or substantial portions of the Software.
 #
 
+
 import numpy as np
 
+from .femmedium import FEMMedium
+from pyplanes.media import Fluid as MediaFluid
 
-class Node(object):
-    """
-    Stores a node's coordinates and labels
 
-    Attributes
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+class Fluid(FEMMedium, MediaFluid):
+    """FEM representation of a fluid medium
 
-    Parameters
-    ----------
-    coords: array
-        coordinates
-    labels: list
-        list of labels
-    dim: int
-        number of coords (default: 2)
+    *Include weak-form*
     """
 
-    def __init__(self, coords, labels=None, dim=2):
+    def __init__(self):
+        self.rho, self.c = None, None
+        FEMMedium.__init__(self, 'p')
+        MediaFluid.__init__(self)
 
-        self.coords = np.array(coords)
-        self.labels = [] if labels is None else labels
-        self.dim = dim
+    def update_frequency(self, f):
+        FEMMedium.update_frequency(self, f)
+        MediaFluid.update_frequency(self, f)
+
+    def compute_multipliers(self, field):
+        omega = 2*np.pi*self.f
+
+        return 1/(self.rho*omega**2),\
+            -1/(self.rho*self.c**2)

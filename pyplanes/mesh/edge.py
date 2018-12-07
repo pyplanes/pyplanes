@@ -24,9 +24,22 @@ from numpy.lib.scimath import sqrt
 
 
 class Edge(object):
-    """ Holds an edge (2 nodes) and its labels
-    n1, n2 - connected nodes
-    labels - list of labels
+    """
+    Holds an edge (2 nodes) and its labels
+
+    Attributes
+    ----------
+    n1, n2 : Node instance
+        Both nodes at the ends of the edge
+    labels : list[str]
+        labels applied to the edge
+
+    Parameters
+    ----------
+    n1, n2 : Node instance
+        Both nodes at the ends of the edge
+    labels : list[str]
+        labels applied to the edge
     """
 
     def __init__(self, n1, n2, labels=None):
@@ -38,4 +51,12 @@ class Edge(object):
         self.labels = [] if labels is None else labels
 
     def length(self):
+        """
+        Compute the length of the edge
+
+        Return
+        ------
+        length : float
+            length of the segment
+        """
         return sqrt(self.n1.coords**2 - self.n2.coords**2)
