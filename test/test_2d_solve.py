@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding:utf8 -*-
 #
-# __init__.py
+# 2d_solve.py
 #
 # This file is part of pyplanes, a software distributed under the MIT license.
 # For any question, please contact mathieu@matael.org.
@@ -18,3 +18,22 @@
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
 #
+
+import pytest
+
+import numpy as np
+
+from pyplanes import Solver
+from pyplanes.media import Air
+
+@pytest.fixture
+def mesh_filename():
+    return 'test/files/square.msh'
+
+
+def test_2d_linear(mesh_filename):
+    labels = { 0: {'medium': 'air' }, }
+    S = Solver(mesh_filename, labels)
+    A, b, x = S.solve(10, output_matrices=True)
+    assert A.size
+
