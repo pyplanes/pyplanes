@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/pyplanes/pyplanes/badge.svg?branch=master)](https://coveralls.io/github/pyplanes/pyplanes?branch=master) [![Build Status](https://travis-ci.org/pyplanes/pyplanes.svg?branch=master)](https://travis-ci.org/pyplanes/pyplanes)
+
 # pyplanes
 
 pyplanes is a rewrite of @OlivierDAZEL's [PLANES](https://github.com/pyplanes/pyplanes) in
