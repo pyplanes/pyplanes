@@ -61,8 +61,8 @@ class TR3(InterpolationMethod):
 
         I = np.zeros((2,))
         for xi, w in gauss_points:
-            I[0] = (1+xi/2)*w
-            I[1] = (1-xi/2)*w
+            I[0] += (1+xi/2)*w
+            I[1] += (1-xi/2)*w
         I *= length/2
         return I
 
