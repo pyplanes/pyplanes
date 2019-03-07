@@ -137,46 +137,6 @@ class Solver:
         domains = [FEMDomain(TR3, MeshPart(self.mesh, labels=(0,)), self.media, self.labels)]
         return domains
 
-    def get_elem_matrices_TR6(self, node_coords):
-
-        _PG1 = 0.445948490915965
-        _PG2 = 0.091576213509771
-        _WG1 = 0.111690794839005
-        _WG2 = 0.054975871827661
-        gauss_points = (
-            (1-2*_PG1, _PG1, _WG1),
-            (_PG1, _PG1, _WG1),
-            (_PG1, 1-2*_PG1, _WG1),
-            (_PG2, _PG2, _WG2),
-            (1-2*_PG2, _PG2, _WG2),
-            (_PG2, 1-2*_PG2, _WG2)
-        )
-
-        H, Q = np.zeros((6,6)), np.zeros((6,6))
-        for xi, eta, w in gauss_points:
-            zeta = 1 - xi - eta
-
-            N = np.array([
-                -zeta*(1-2*zeta),
-                4*xi*zeta,
-                -xi*(1-2*xi),
-                4*xi*eta,
-                -eta*(1-2*eta),
-                4*eta*zeta]).reshape(1,3)
-
-            dN = np.array([
-                [1-4*zeta, 4*(zeta-xi), -1+4*xi, 4*eta, 0, -4*eta],
-                [1-4*zeta, -4*xi, 0, 4*xi, -1+4*eta, 4*(zeta-eta)],
-            ])
-            J = dN @ node_coords
-            Jinv = np.linalg.inv(J)
-            Jdet = np.linalg.det(J)
-
-            Bd = Jinv @ dN
-            H += Bd.T @ Bd * Jdet * w
-            Q += N.T @ N * Jdet * w
-        return H, Q
-
     def __apply_dof_remove(self, belem_remove_idxs):
         pass
 
